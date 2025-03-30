@@ -1,0 +1,3 @@
+1. Removing relative loss
+2. Reformulating PDE in hopes of avoiding trivial solution
+3. Pertaining with just laplacian and not psi^5

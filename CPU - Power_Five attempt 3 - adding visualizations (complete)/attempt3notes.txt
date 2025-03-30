@@ -1,0 +1,2 @@
+1. Adding visualization features
+2. Adding epoch loss csv output

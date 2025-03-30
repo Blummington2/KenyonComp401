@@ -1,0 +1,2 @@
+1. Just more runs... Attempt 5 was oddly successful
+2. Adding back relative loss... Using delta-rho instead of laplacian
