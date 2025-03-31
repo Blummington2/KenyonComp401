@@ -331,23 +331,26 @@ def bc(number_pts, lower_bound, upper_bound):
 
     return (x_l,y_l,z_l,x_r,y_r,z_r,x_ll,y_ll,z_ll,x_rr,y_rr,z_rr,x_lll,y_lll,z_lll,x_rrr,y_rrr,z_rrr)
 
-# for creating the training set in the interior
-def interior(number_pts): 
+
+
+# Consider using np.concatenate rather than np.append for efficieny (the gains would be small). Use ChatGPT for help.
+# For creating the training set in the interior
+def interior(number_pts): # Creates sampling with higher frequency towards the center of the box where we expect complicated dynamics
     x_sampling = np.random.uniform(low=lower_bound, high=upper_bound, size=((int)(number_pts/2),1))
     y_sampling = np.random.uniform(low=lower_bound, high=upper_bound, size=((int)(number_pts/2),1))
-    z_sampling = np.random.uniform(low=lower_bound, high=upper_bound, size=((int)(number_pts/2),1))
+    z_sampling = np.random.uniform(low=lower_bound, high=upper_bound, size=((int)(number_pts/2),1)) # Radnom sampling accross the grid
 
     x_sampling = np.append(x_sampling, np.random.normal(loc=0, scale=sigma, size=((int)(number_pts/3),1)))
     y_sampling = np.append(y_sampling, np.random.normal(loc=0, scale=sigma, size=((int)(number_pts/3),1)))
-    z_sampling = np.append(z_sampling, np.random.normal(loc=0, scale=sigma, size=((int)(number_pts/3),1)))
+    z_sampling = np.append(z_sampling, np.random.normal(loc=0, scale=sigma, size=((int)(number_pts/3),1))) # Random sampling with Gaussian frequency distribution
 
     x_sampling = np.append(x_sampling, np.random.uniform(low=lower_bound/10, high=upper_bound/10, size=((int)(number_pts/12),1)))
     y_sampling = np.append(y_sampling, np.random.uniform(low=lower_bound/10, high=upper_bound/10, size=((int)(number_pts/12),1)))
-    z_sampling = np.append(z_sampling, np.random.uniform(low=lower_bound/10, high=upper_bound/10, size=((int)(number_pts/12),1)))
+    z_sampling = np.append(z_sampling, np.random.uniform(low=lower_bound/10, high=upper_bound/10, size=((int)(number_pts/12),1))) # Random sampling accross part of the grid
 
     x_sampling = np.append(x_sampling, np.random.uniform(low=lower_bound/100, high=upper_bound/100, size=((int)(number_pts/24),1)))
     y_sampling = np.append(y_sampling, np.random.uniform(low=lower_bound/100, high=upper_bound/100, size=((int)(number_pts/24),1)))
-    z_sampling = np.append(z_sampling, np.random.uniform(low=lower_bound/100, high=upper_bound/100, size=((int)(number_pts/24),1)))
+    z_sampling = np.append(z_sampling, np.random.uniform(low=lower_bound/100, high=upper_bound/100, size=((int)(number_pts/24),1))) # Random sampling accross part of the grid, increasingly close to center
 
     x_sampling = np.append(x_sampling, np.random.uniform(low=lower_bound/500, high=upper_bound/500, size=((int)(number_pts/24 -30),1)))
     y_sampling = np.append(y_sampling, np.random.uniform(low=lower_bound/500, high=upper_bound/500, size=((int)(number_pts/24 -30),1)))
@@ -357,9 +360,9 @@ def interior(number_pts):
     y_sampling = np.append(y_sampling, np.random.uniform(low=lower_bound/5000, high=upper_bound/5000, size=(15,1)))
     z_sampling = np.append(z_sampling, np.random.uniform(low=lower_bound/5000, high=upper_bound/5000, size=(15,1)))
 
-    x_sampling = np.append(x_sampling, np.random.uniform(low=lower_bound/50000, high=upper_bound/50000, size=(8,1)))
-    y_sampling = np.append(y_sampling, np.random.uniform(low=lower_bound/50000, high=upper_bound/50000, size=(8,1)))
-    z_sampling = np.append(z_sampling, np.random.uniform(low=lower_bound/50000, high=upper_bound/50000, size=(8,1)))
+    x_sampling = np.append(x_sampling, np.random.uniform(low=lower_bound/50000, high=upper_bound/50000, size=(6,1)))
+    y_sampling = np.append(y_sampling, np.random.uniform(low=lower_bound/50000, high=upper_bound/50000, size=(6,1)))
+    z_sampling = np.append(z_sampling, np.random.uniform(low=lower_bound/50000, high=upper_bound/50000, size=(6,1)))
 
     x_sampling = np.append(x_sampling, np.random.uniform(low=lower_bound/500000, high=upper_bound/500000, size=(4,1)))
     y_sampling = np.append(y_sampling, np.random.uniform(low=lower_bound/500000, high=upper_bound/500000, size=(4,1)))
@@ -369,9 +372,10 @@ def interior(number_pts):
     y_sampling = np.append(y_sampling, np.random.uniform(low=lower_bound/5000000, high=upper_bound/5000000, size=(2,1)))
     z_sampling = np.append(z_sampling, np.random.uniform(low=lower_bound/5000000, high=upper_bound/5000000, size=(2,1)))
 
-    x_sampling = np.append(x_sampling, [[0]])
-    y_sampling = np.append(y_sampling, [[0]])
-    z_sampling = np.append(z_sampling, [[0]])
+    for XXX in range(3):
+        x_sampling = np.append(x_sampling, [[0]])
+        y_sampling = np.append(y_sampling, [[0]])
+        z_sampling = np.append(z_sampling, [[0]]) # 3 Sample points at the origin
 
     u_sampling = np.zeros((len(x_sampling),1))
 
@@ -379,7 +383,7 @@ def interior(number_pts):
     return x_sampling, y_sampling, z_sampling, u_sampling
 
 
-# Interior Points
+# Interior points
 num_pts_interior = 30000
 x_sampling, y_sampling, z_sampling, u_sampling = interior(num_pts_interior)
 interior_x_sampling = Variable(torch.from_numpy(x_sampling).float(), requires_grad=True).to(device).unsqueeze(1) # turns BC samples into PyTorch tensors with gradient enabled
@@ -387,6 +391,7 @@ interior_y_sampling = Variable(torch.from_numpy(y_sampling).float(), requires_gr
 interior_z_sampling = Variable(torch.from_numpy(z_sampling).float(), requires_grad=True).to(device).unsqueeze(1)
 interior_all_zeros = Variable(torch.from_numpy(u_sampling).float(), requires_grad=False).to(device) # tensor to be compared to
 
+# Boundary points
 num_pts_boundary = 800
 x_l,y_l,z_l,x_r,y_r,z_r,x_ll,y_ll,z_ll,x_rr,y_rr,z_rr,x_lll,y_lll,z_lll,x_rrr,y_rrr,z_rrr = bc(num_pts_boundary, lower_bound, upper_bound)
 
@@ -415,41 +420,45 @@ y_rrr_sampling = Variable(torch.from_numpy(y_rrr).float(), requires_grad=True).t
 z_rrr_sampling = Variable(torch.from_numpy(z_rrr).float(), requires_grad=True).to(device)
 
 
+
+
+
+
+
 ##################################################
 ## Starting code for Training / Fitting
 ##################################################
 
-file1 = open('epoch_residual.csv','w')
-writer1 = csv.writer(file1)
+file1 = open('epoch_residual.csv','w') # Open csv file for data output
+writer1 = csv.writer(file1) # Writes to csv file
 
-iterations = 1000000
+iterations = 1000000 # Number of loops in training
 
 # net.load_state_dict(torch.load('poisson_pre-train_epoch=590000.pt'))
 
-for epoch in range(iterations):
-    # optimizer.zero_grad() should be indented properly
-    optimizer.zero_grad()  # to make the gradients zero
+for epoch in range(iterations): # 'Epoch' keeps track of current training iteration
 
+    optimizer.zero_grad()  # to make the gradients zero. Clear gradients
 
-    if epoch % 10000 == 0:
+    if epoch % 10000 == 0: # Every 10000 epochs...
         visualize_error(lb= lower_bound, ub= upper_bound, num_slices=5, domain_size=100, device=device, epoch = epoch)
         with torch.autograd.no_grad():
             visualize_function(lb=lower_bound, ub=upper_bound, num_slices=5, domain_size=100, device=device, epoch=epoch)
-            visualize_x0_slice(lb=0.2*lower_bound,ub=0.2*upper_bound, domain_size=100,device=device, epoch=epoch)
+            visualize_x0_slice(lb=0.1*lower_bound,ub=0.1*upper_bound, domain_size=100,device=device, epoch=epoch)
             visualize_x0_slice(lb=lower_bound,ub=upper_bound, domain_size=100,device=device, epoch=epoch)
-            torch.save({'net_state_dict': net.state_dict(),'optimizer_state_dict': optimizer.state_dict()}, 'checkpoint_epoch=' + str(epoch) + '.pth')
+            torch.save({'net_state_dict': net.state_dict(),'optimizer_state_dict': optimizer.state_dict()}, 'checkpoint_epoch=' + str(epoch) + '.pth') # Saves current network and optimizer state so that training can be resumed from any point
     
     # Loss based on PDE
-    f_out = f(interior_x_sampling, interior_y_sampling, interior_z_sampling, net)  # output of f(x,t)
-    mse_interior = mse_cost_function(f_out, interior_all_zeros)
+    f_out = f(interior_x_sampling, interior_y_sampling, interior_z_sampling, net)  # Output of f(x,y,z)
+    mse_interior = mse_cost_function(f_out, interior_all_zeros) # Automatically calculates interior loss with gradient disabled
 
-    l_out = net(x_l_sampling, y_l_sampling, z_l_sampling)
+    l_out = net(x_l_sampling, y_l_sampling, z_l_sampling) # Field values on borders
     r_out = net(x_r_sampling, y_r_sampling, z_r_sampling)
     ll_out = net(x_ll_sampling, y_ll_sampling, z_ll_sampling)
     rr_out = net(x_rr_sampling, y_rr_sampling, z_rr_sampling)
     lll_out = net(x_lll_sampling, y_lll_sampling, z_lll_sampling)
     rrr_out = net(x_rrr_sampling, y_rrr_sampling, z_rrr_sampling)
-    mse_boundary = mse_cost_function(l_out, r_out) + mse_cost_function(ll_out, rr_out) + mse_cost_function(lll_out, rrr_out)
+    mse_boundary = mse_cost_function(l_out, r_out) + mse_cost_function(ll_out, rr_out) + mse_cost_function(lll_out, rrr_out) # Periodic boundary conditions... Loss higher if opposite boundaries don't match
 
     # optional for second BC: 
     """
@@ -461,19 +470,19 @@ for epoch in range(iterations):
     rrr_f = f(x_rrr_sampling, y_rrr_sampling, z_rrr_sampling)
     mse_boundary2 = mse_cost_function(l_f, r_f) + mse_cost_function(ll_f, rr_f) + mse_cost_function(lll_f, rrr_f)
     """
-    loss = mse_interior + 0.333 * mse_boundary
+    loss = mse_interior + 0.333 * mse_boundary # Total loss
 
 
     loss.backward()  # This is for computing gradients using backward propagation
-    optimizer.step()  # This is equivalent to : theta_new = theta_old - alpha * derivative of J w.r.t theta
+    optimizer.step()  # This is equivalent to : theta_new = theta_old - alpha * derivative. Gradient Descent.
 
     if epoch > 40000 and epoch < 200000:
-        scheduler.step()
+        scheduler.step() # Adjust learning rate gradually
     if epoch > 400000 and epoch < 900000:
-        scheduler2.step()
+        scheduler2.step() # Slower adjusting of learning rate gradually
     
     if epoch % 100 == 0:
-        with torch.autograd.no_grad():
+        with torch.autograd.no_grad(): # Data output to terminal and also to the csv file. Every 100 epochs.
             writer1.writerow(["Epoch:", epoch ,"Training Loss:",loss.item(), ", Learning rate:", scheduler.get_last_lr()[0], ", Number of training points (boundary):",(x_l_sampling.size(0) + x_ll_sampling.size(0) + x_lll_sampling.size(0) + x_r_sampling.size(0) + x_rr_sampling.size(0) + x_rrr_sampling.size(0)), ", Number of training points (interior):", interior_x_sampling.size(0), ", VRAM allocated:", torch.cuda.memory_allocated(), ", VRAM reserved:", torch.cuda.memory_reserved()])
             print("Epoch:", epoch, "Training Loss:",loss.item(), " Learning rate:", scheduler.get_last_lr()[0], " Number of training points (boundary):",(x_l_sampling.size(0) + x_ll_sampling.size(0) + x_lll_sampling.size(0) + x_r_sampling.size(0) + x_rr_sampling.size(0) + x_rrr_sampling.size(0)), " Number of training points (interior):", interior_x_sampling.size(0), " VRAM allocated:", torch.cuda.memory_allocated(), " VRAM reserved:", torch.cuda.memory_reserved())
 
