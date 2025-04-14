@@ -1,0 +1,4 @@
+1. Readjusting the delta-rho function to allow for fully negative solutions...
+2. Decided that this was necessary after some mathematical analysis.
+3. Delta-rho_new = delta-rho_old + some-constant.
+4. Fixed a small error in the delta-rho function.
