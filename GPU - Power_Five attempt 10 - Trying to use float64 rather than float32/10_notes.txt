@@ -1,0 +1,4 @@
+1. Hoping to switch to higher precision numbers. Float32 to float64 (success).
+
+2. Train step is displaying some strange phenomena. Initial earning rate is always either too high and then loss explodes, or initial learning rate is too low and we get stuck in a local minimum (downside of pre-training). 
+3. Train three start with a large learning rate and reduces it somewhat rapidly.
