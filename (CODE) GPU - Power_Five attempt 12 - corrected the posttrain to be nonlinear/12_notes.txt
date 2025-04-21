@@ -1,0 +1,4 @@
+1. Attempt 11 accidentally used a linear PDE.
+2. Fixed in attempt 12.
+3. Attempt 12.1 doesn't use any special loss functions... no symmetry enforcement. Starts from train 7.2. (I think it might be getting stuck in a local minimum
+4. Attempt 12.2 has symmetry enforcement. starts from train 7.2. Uses relative loss and regular loss. Also uses a higher initial learning rate to hopefully escape local minimum

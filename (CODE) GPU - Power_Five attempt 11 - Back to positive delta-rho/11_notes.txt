@@ -1,0 +1,6 @@
+1. Returning to the delta_rho formulation from attempt 7, where (delta_rho > 0) everywhere. 
+2. Uses (attempt 7 -> train 2) for pre-training, then uses the relative loss formulation. 
+3. (attempt 11 -> train 1) had too high of a learning rate.
+4. (attempt 11 -> train 2) has reduced learning rate.
+
+6. NOTE: the post-training PDE was incorrect!! Used linear instead of nonlinear, accidentally.
