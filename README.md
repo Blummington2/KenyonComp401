@@ -12,11 +12,11 @@
 
 
 ## 1. Notes for the Reader/Viewer/Researcher
-There are 2 versions of this project available. The github copy contains only the code and some notes on the changes made from 1 version of the code to the next. To access the full project, including the outputed data and models, see the VM provided by professor Skon or contact Adam S Blum. 
+There are 2 versions of this project available. The github copy contains only the code and some notes on the changes made from 1 version of the code to the next. To access the full project, including the outputted data and models, see the VM provided by professor Skon or contact Adam S Blum. 
 
 ## 2. Overview of Project
 The goal of this project was to solve a particular nonlinear poisson equation using physics informed neural networks (PINNs), and to document knowledge and wisdom about PINN training practices. This project was completed as coursework for the COMP401 class at Kenyon College during the spring 2025 semester. 
-The equation to be solved was a 3D scalar field given by $$\nabla^2 [\phi(x,y,z)] + 2 \pi [\delta\rho(x,y,z)] [\phi(x,y,z)]^5 = 0$$, where $$[\delta\rho(x,y,z)]$$ is a provided 3d energy-related scalar field and $$[\phi(x,y,z)]$$ is the 'conformal factor' scalar field to be solved. Boundary conditions are periodic. This problem is called the Hamiltonian constraint for general relativity. My work is motivated by the compuational cosmology research done by Kenyon Cosmolab under professor Tom Giblin. Solving these fields accurately and efficiently will help enable simulations of black hole formation in full general realtivity. 
+The equation to be solved was a 3D scalar field given by $$\nabla^2 [\phi(x,y,z)] + 2 \pi [\delta\rho(x,y,z)] [\phi(x,y,z)]^5 = 0$$, where $$[\delta\rho(x,y,z)]$$ is a provided 3d energy-related scalar field and $$[\phi(x,y,z)]$$ is the 'conformal factor' scalar field to be solved. Boundary conditions are periodic. This problem is called the Hamiltonian constraint for general relativity. My work is motivated by the computational cosmology research done by Kenyon Cosmolab under professor Tom Giblin. Solving these fields accurately and efficiently will help enable simulations of black hole formation in full general realtivity. 
 The project was successful, producing many good models for various delta-rho energy distributions (see attempt 7). The success levels of multiple training techniques were also recored. 
 
 ## 3. Code/Training Versions Guide
