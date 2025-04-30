@@ -42,7 +42,7 @@ For the most successful training run, see attempt 7, 'train 2'.
 For the most readable, up to date code, see attempt 13. 
 
 ## 5. Notes on Techniques Used
--  Pre-training using similar problems: Often helpful for achieving a general shape quickly, but usually unnecessary. Sometimes produced difficulties when the simplified pronblem pre-trained model was a weight-space local minimum for the full problem. Overall, helpful, but problematic in certain scenarios. 
+-  Pre-training using similar problems: Often helpful for achieving a general shape quickly, but usually unnecessary. Sometimes produced difficulties when the simplified problem pre-trained model was a weight-space local minimum for the full problem. Overall, helpful, but problematic in certain scenarios. 
 - Symmetry enforcement: Useful for guiding chaotic nonlinear problems toward a valid solution during early training. On the downside, it increases computational cost and slows training. Overall, helpful for early parts of training where the model can't find the overall shape of the correct scalar field.
 - Learning rate schedulers: Allows training to enter more suitable learning rate regimes when training has stalled out. Overall, extremely helpful, escpecially if you want to leave a training run going without checking on it and editing it frequently. Imporved my efficieny as a researcher. 
 - Higher sampling near interesting dynamic areas (center of the domain, in this case): Helps models achieve an appropriate shape more quickly. This is probably the most important technique that I used. Potentially necessary for reducing computational cost to a feasible level, as opposed to completely random sampling on the domain. 
