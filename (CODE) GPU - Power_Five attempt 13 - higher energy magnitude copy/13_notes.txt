@@ -1,0 +1,4 @@
+1. Attempt 13 will skip all pre-training. Will avoid trivial solutions by dividing by u^5, rather than multiplying on the other side.
+2. Higher delta-rho magnitude, peak has value of 1.
+3. 13.1 uses both regular and relative loss... Higher proportion of regular loss.
+4. 13.2 only uses regular loss and has a slightly slower learning rate decay.
