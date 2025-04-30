@@ -20,7 +20,7 @@ The equation to be solved was a 3D scalar field given by $$\nabla^2 [\phi(x,y,z)
 The project was successful, producing many good models for various delta-rho energy distributions (see attempt 7). The success levels of multiple training techniques were also recorded. 
 
 ## 3. Code/Training Versions Guide
-This project contains 13 folders, labeled attempt 1 through attempt 13. Each folder contains code, with higher attempt numbers corresponding to newer training runs and newer versions of the code, and lower attempt numbers corresponding to older training runs and older versions of the code. Pre-training was achived by training with a pre-training script/code, then passing the produced model to the full training script/code. 
+This project contains 13 folders, labeled attempt 1 through attempt 13. Each folder contains code, with higher attempt numbers corresponding to newer training runs and newer versions of the code, and lower attempt numbers corresponding to older training runs and older versions of the code. Pre-training was achieved by training with a pre-training script/code, then passing the produced model to the full training script/code. 
 - Attempt 1: Initial code framework where I set up the neural network, physics functions, field sampling, learning rate schedulers, and loss formulation. Basic code for CPU, meant to be built upon in later versions.
 - Attempt 2: Added data output features. Every 100 training iterations, the code outputs training to the screen. 
 - Attempt 3: Added graphical visualization features and made it so that training data is saved to a csv every 100 training iterations. 
